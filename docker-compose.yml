@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  book-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.Python
+    depends_on:
+      - spark_env
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./utils:/app/utils
+    environment:
+      - PYTHONPATH=/app
+
+  spark_env:
+    build:
+      context: .
+      dockerfile: Dockerfile.Spark
+    command: bash -c "tail -f /dev/null"
