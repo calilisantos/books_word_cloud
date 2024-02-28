@@ -1,0 +1,4 @@
+words_env
+__pycache__
+.pytest_cache
+src/data/raw_content.parquet
