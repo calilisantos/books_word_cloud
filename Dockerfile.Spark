@@ -1,3 +1,4 @@
+# Tutorial: https://www.virtono.com/community/tutorial-how-to/how-to-install-apache-spark-on-ubuntu-22-04-and-centos/
 # Use a imagem base do OpenJDK 11.0.21
 FROM adoptopenjdk/openjdk11:jdk-11.0.21_9-alpine-slim AS openjdk
 
@@ -10,8 +11,12 @@ ARG SPARK_VERSION=3.5.0
 # Baixa e extrai o Apache Spark
 RUN wget -qO- "https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop3.tgz" | tar xvz -C /opt && \
     mv "/opt/spark-$SPARK_VERSION-bin-hadoop3" /opt/spark
+# RUN wget "https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop3.tgz" | \
+#     tar xvf "spark-$SPARK_VERSION-bin-hadoop3.tgz" && \
+#     mv "spark-$SPARK_VERSION-bin-hadoop3" /opt/spark
+
 
 # Define as variáveis de ambiente do Spark e do Java
 ENV SPARK_HOME=/opt/spark
 ENV PATH=$PATH:$SPARK_HOME/bin
-ENV JAVA_HOME=/opt/java/openjdk
+# ENV JAVA_HOME=/opt/java/openjdk

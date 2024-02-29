@@ -1,0 +1,41 @@
+FROM ubuntu:22.04
+
+# Install OpenJDK 11
+RUN \
+  apt-get update && \
+  apt-get install -y wget openjdk-11-jdk python3.10 python3-pip && \
+  rm -rf /var/lib/apt/lists/*
+
+# Set Spark version
+ARG SPARK_VERSION=3.5.0
+
+# Install Spark
+RUN wget "https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop3.tgz"
+
+RUN tar xvf "spark-$SPARK_VERSION-bin-hadoop3.tgz"
+
+RUN mv "spark-$SPARK_VERSION-bin-hadoop3" /opt/spark
+
+# Set Spark ENV
+
+ENV SPARK_HOME=/opt/spark
+ENV PATH=$PATH:$SPARK_HOME/bin
+
+# RUN JAVA_HOME=$(update-alternatives --list java)  
+
+# Set /app
+WORKDIR /app
+
+# Copy python dependencies
+COPY requirements.txt .
+COPY tox.ini .
+COPY src ./src
+COPY test ./test
+COPY utils ./utils
+
+ENV PYTHONPATH=/app
+# Install python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Run app
+CMD ["streamlit", "run", "src/main.py"]

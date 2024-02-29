@@ -15,9 +15,20 @@ services:
       - ./utils:/app/utils
     environment:
       - PYTHONPATH=/app
+      # - JAVA_HOME=/opt/java/openjdk
+    container_name: book-app
 
   spark_env:
     build:
       context: .
       dockerfile: Dockerfile.Spark
-    command: bash -c "tail -f /dev/null"
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./utils:/app/utils
+    environment:
+      SPARK_HOME: /opt/spark
+      PATH: $PATH:/opt/spark/bin
+      # JAVA_HOME: /opt/java/openjdk
+    container_name: spark_env
+    command: tail -f /dev/null
