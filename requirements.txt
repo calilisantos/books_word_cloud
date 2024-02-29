@@ -2,7 +2,6 @@ altair==4.1.0
 flake8==6.1.0
 ipykernel==6.26.0
 jupyter==1.0.0
-matplotlib==3.7.1
 protobuf==3.20.0
 pyspark==3.5.0
 pytest==7.4.2
