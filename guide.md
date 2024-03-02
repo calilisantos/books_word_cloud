@@ -6,6 +6,11 @@ source words_env/bin/activate
 pip install -r requirements.txt
 
 
-## Com Dockerfile.Global
+## [Depreciado com a mudança de versão do pyspark] Com Dockerfile.Global
 docker build -t book-wordcloud -f Dockerfile.Global .
 docker run book-wordcloud
+
+# Com docker-compose
+docker-compose down -v
+docker-compose up --build 
+[Importante atualizar o valor de JAVA_HOME do container java no arquivo docker-compose.yml se necessário.]
