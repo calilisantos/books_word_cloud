@@ -1,5 +1,5 @@
 from pytest import fixture
-from test.mocks.data import raw_content_df
+from tests.mocks.data import raw_content_df
 
 
 @fixture
