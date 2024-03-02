@@ -1,6 +1,13 @@
 version: '3.8'
 
 services:
+  spark_env:
+    image: apache/spark-py:v3.4.0
+    volumes:
+      - /etc/java-11-openjdk/security:/java_security  # Mount java security files
+    container_name: spark_env
+    command: echo This was the JAVA_HOME $JAVA_HOME
+
   book-app:
     build:
       context: .
@@ -13,22 +20,9 @@ services:
       - ./src:/app/src
       - ./tests:/app/tests
       - ./utils:/app/utils
+      - /usr/lib/jvm/java-11-openjdk-amd64:/usr/lib/jvm/java-11-openjdk-amd64  # Getting the java home
+      - /etc/java-11-openjdk/security:/usr/lib/jvm/java-11-openjdk-amd64/conf/security  # Mount java security files
     environment:
       - PYTHONPATH=/app
-      # - JAVA_HOME=/opt/java/openjdk
+      - JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
     container_name: book-app
-
-  spark_env:
-    build:
-      context: .
-      dockerfile: Dockerfile.Spark
-    volumes:
-      - ./src:/app/src
-      - ./tests:/app/tests
-      - ./utils:/app/utils
-    environment:
-      SPARK_HOME: /opt/spark
-      PATH: $PATH:/opt/spark/bin
-      # JAVA_HOME: /opt/java/openjdk
-    container_name: spark_env
-    command: tail -f /dev/null
