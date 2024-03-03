@@ -7,7 +7,7 @@ from src.views.books import BooksView
 
 
 class BooksController:
-    def __init__(self):
+    def __init__(self) -> None:
         self._logger = logging.getLogger(__name__)
         self._spark = (
             SparkSession.builder
@@ -17,7 +17,7 @@ class BooksController:
         )
         self._configure_logger()
 
-    def _configure_logger(self):
+    def _configure_logger(self) -> None:
         logging.basicConfig(
             format=log_conf.LOG_FORMAT,
             datefmt=log_conf.LOG_DATE_FORMAT,
@@ -25,7 +25,7 @@ class BooksController:
             level=logging.INFO
         )
 
-    def run(self):
+    def run(self) -> None:
         self._logger.info('Building the app...')
         books_model = BooksModel(self._spark)
         has_raw_content = books_model.check_raw_content()
