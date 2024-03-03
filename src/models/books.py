@@ -1,7 +1,7 @@
 from src.configs import data as data_config
 from pathlib import Path
 from pyspark.sql import DataFrame, SparkSession
-from utils.text_search import get_match_text
+from src.utils.text_search import get_match_text
 
 
 class BooksModel:
