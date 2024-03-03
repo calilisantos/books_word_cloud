@@ -17,16 +17,16 @@ Aqui você vai encontrar os detalhes de como está estruturado e foi desenvolvid
   - [Testes](#testes)
 - [Implementações](#implementacoes)
   - [Contextualizando](#contextualizando)
-  - [Consumindo o app](#consumindo)
+  - [Visão do app](#consumindo)
 - [Próximos passos](#next)
 
 # <a id='desenvolvimento'>[Desenvolvimento](#topicos)</a>
 
 <strong><a id='objetivo'>[Objetivo](#topicos)</a></strong>
 
-  O **objetivo** é criar nuvem de palavras com o conteúdo de alguns livros populares obtidos pela API [Gutendex](https://gutendex.com/).
+  O **objetivo** é criar uma nuvem de palavras com o conteúdo de alguns livros populares obtidos pela API [Gutendex](https://gutendex.com/).
   
-  Para isso, foi feita a leitura e transformação dos dados com o `PysPark`, ferramenta que integra técnicas de `machine learning` (tokenização, feature engineering, etc..) com o processamento de big data; e o `streamlit` para construir a interface gráfica do usuário.
+  Para isso, foi feita a leitura e transformação dos dados com o `Pyspark`, ferramenta que integra técnicas de `machine learning` (tokenização, feature engineering, etc..) com o processamento de big data; e o `streamlit` solução em python geradora de interface gráfica do usuário.
 
   ---
 
@@ -39,7 +39,7 @@ Aqui você vai encontrar os detalhes de como está estruturado e foi desenvolvid
   * **[models](src/models)** com a [camada](src/models/books.py) que interage com a fonte de dados do aplicativo;
   * **[services](src/services)** com a [camada](src/services/books.py) que aplica as transformações dos dados e criação da nuvem de palavras;
   * **[utils](src/utils)** com o [arquivo](src/utils/text_search.py) utilitário na execução do código fonte;
-  * **[views](src/views)** com a [camada](src/views/books.py) que gera os elementos da interface gráfica do aplicativo;
+  * **[views](src/views)** com a [camada](src/views/books.py) que gera os elementos da interface gráfica do aplicativo.
 * **E o arquivo:**
   * **[main.py](src/main.py)** com a classe **Main**, executora do código-fonte da aplicação.
 * **Na pasta [tests](tests) estão os arquivos com os testes das respectivas camadas do código-fonte.**
@@ -58,7 +58,7 @@ Aqui você vai encontrar os detalhes de como está estruturado e foi desenvolvid
 * **[Pyspark](https://spark.apache.org/docs/latest/api/python/index.html):**
   * Interface para execução do Spark em `python`, com todas as soluções de processamento de dados da ferramenta;
 * **[Streamlit](https://streamlit.io/):**
-  * Framework do `python` para construção amigável de aplicativos interativos.
+  * Framework do `python` para construção amigável de aplicativos interativos;
 * **[Wordcloud](http://amueller.github.io/word_cloud/):**
   * Biblioteca `python` para criação de nuvem de palavras de forma simples.
 
@@ -73,9 +73,6 @@ A aplicação foi pensada para ser testada com o `Docker`, visando torná-la o m
 É possível sua execução sem a ferramenta, com sugestões para os dois cenários abaixo:
 
 >**IMPORTANTE**<br/>Independente da escolha, após clonar o projeto, entre com seu terminal na pasta criada:<br/>`cd books_word_cloud`<br/>**Todas orientações abaixo, tem essa pasta como referência.**
-
-
-<!-- <h3><strong><a id='sem-docker'>1. Execução sem o docker:</a></strong></h3> -->
 
 ### <strong><a id='sem-docker'>[1. Execução sem o docker:](#topicos)</a></strong>
 
@@ -208,23 +205,29 @@ Se estiver a vontade, clone o repositório e, seja com ou sem o Docker, execute,
 
   Para mostrar o potencial da solução, desenvolveu-se essa aplicação que constrói uma nuvem de palavras com `python` e `pyspark`, com as 50 principais palavras de livros famosos disponíveis na API Gutendex.
   
-<strong><a id='consumindo'>[Consumindo o app](#topicos)</a></strong>
+<strong><a id='consumindo'>[Visão do app](#topicos)</a></strong>
 
-  Para execução do projeto, execute o comando abaixo na raiz do projeto clonado:
+  Para execução do projeto (como descrito [nessa seção](#sem-docker)), execute o comando abaixo na raiz do projeto clonado:
 
   ```bash
   streamlit run src/main.py  
   ```
   
+  No seu servidor local, na porta `8501`, a aplicação deve ficar disponível, como abaixo:
+
+  ![books-app gif](docs/book-app.gif)
+
 # <a id='next'>[Próximos passos](#topicos)</a>
 
   As features mapeadas são:
+
+  * **Fazer o deploy da aplicação**;
 
   * **Ampliar cenários de testes** garantindo o design da aplicação;
 
   * **Construir uma esteira de CI/CD** para garantir a governança das implementações do projeto;
 
-  * **Orquestrar o ambiente com Kubernetes**, adicionando uma opção de disponibilidade da execução do projeto.
+  * **Orquestrar o ambiente com Kubernetes**, adicionando uma opção de disponibilidade da execução do projeto;
 
   * **Gerenciar os containers com helm**, adicionando uma opção dinâmica de disponibilidade da execução do projeto.
 
