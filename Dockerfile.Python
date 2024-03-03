@@ -9,7 +9,6 @@ COPY requirements.txt .
 COPY tox.ini .
 COPY src ./src
 COPY tests ./tests
-COPY utils ./utils
 
 # Instala as dependências Python
 RUN pip install --no-cache-dir -r requirements.txt

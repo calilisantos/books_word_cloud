@@ -19,7 +19,6 @@ services:
     volumes:
       - ./src:/app/src
       - ./tests:/app/tests
-      - ./utils:/app/utils
       - /usr/lib/jvm/java-11-openjdk-amd64:/usr/lib/jvm/java-11-openjdk-amd64  # Getting the java home
       - /etc/java-11-openjdk/security:/usr/lib/jvm/java-11-openjdk-amd64/conf/security  # Mount java security files
     environment:
