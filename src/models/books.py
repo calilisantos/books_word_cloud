@@ -5,7 +5,7 @@ from src.utils.text_search import get_match_text
 
 
 class BooksModel:
-    def __init__(self, spark: SparkSession):
+    def __init__(self, spark: SparkSession) -> None:
         self._files_list = list()
         self._data_list = list()
         self._has_raw_content = bool()
@@ -19,13 +19,13 @@ class BooksModel:
         """
         return Path(data_config.TARGET_PATH).exists()
 
-    def _set_files_list(self) -> list:
+    def _set_files_list(self) -> None:
         """
         Retorna uma lista com os arquivos do diretório
         """
         self._files_list = [file.name for file in Path(data_config.SOURCE_PATH).iterdir() if file.is_file()]
 
-    def _set_data_list(self):
+    def _set_data_list(self) -> None:
         """
         Seta a lista de arquivos
         """
@@ -40,7 +40,7 @@ class BooksModel:
                     print(f"Author not found in {file_name}")
                 self._data_list.append((title, author, data))
 
-    def create_raw_dataframe(self):
+    def create_raw_dataframe(self) -> None:
         """
         Cria o parquet com o conteúdo dos livros
         """
@@ -52,7 +52,7 @@ class BooksModel:
         ).write.mode(data_config.WRITE_MODE) \
             .parquet(data_config.TARGET_PATH)
 
-    def _set_raw_dataframe(self):
+    def _set_raw_dataframe(self) -> None:
         """
         Seta o dataframe com o conteúdo dos livros
         """

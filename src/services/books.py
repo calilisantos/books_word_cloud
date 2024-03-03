@@ -5,14 +5,14 @@ from wordcloud import WordCloud
 
 
 class BooksService:
-    def __init__(self, dataframe: DataFrame):
+    def __init__(self, dataframe: DataFrame) -> None:
         self._data = dataframe
         self._words_count = DataFrame
         self._top_words = list
         self._dict_data = dict
         self._word_cloud = WordCloud
 
-    def _clean_text(self):
+    def _clean_text(self) -> None:
         self._data = (
             self._data
             .withColumn(
@@ -25,7 +25,7 @@ class BooksService:
             )
         )
 
-    def _tokenize_text(self):
+    def _tokenize_text(self) -> None:
         tokenizer = Tokenizer(
             inputCol=confs.TEXT_COLUMN,
             outputCol=confs.WORD_COLUMN
@@ -36,7 +36,7 @@ class BooksService:
             .drop(confs.TEXT_COLUMN)
         )
 
-    def _remove_stop_words(self):
+    def _remove_stop_words(self) -> None:
         remover = StopWordsRemover(
             inputCol=confs.WORD_COLUMN,
             outputCol=confs.FILTERED_COLUMN
@@ -46,7 +46,7 @@ class BooksService:
             .drop(confs.WORD_COLUMN)
         )
 
-    def _count_words(self):
+    def _count_words(self) -> None:
         self._words_count = (
             self._data
             .withColumn(
@@ -63,7 +63,7 @@ class BooksService:
                         )
         )
 
-    def _remove_noise_words(self):
+    def _remove_noise_words(self) -> None:
         self._words_count = (
             self._words_count
             .filter(
@@ -71,16 +71,16 @@ class BooksService:
             )
         )
 
-    def _get_top_words(self):
+    def _get_top_words(self) -> None:
         self._top_words = (
             self._words_count
             .limit(confs.COMMON_WORDS_SAMPLE)
         )
 
-    def _set_dict_data(self):
+    def _set_dict_data(self) -> None:
         self._dict_data = {row[confs.FILTERED_COLUMN].title(): row['count'] for row in self._top_words.collect()}
 
-    def _set_word_cloud(self):
+    def _set_word_cloud(self) -> None:
         self._word_cloud = (
             WordCloud(
                 width=confs.WORDCLOUD_WIDTH,
@@ -89,10 +89,10 @@ class BooksService:
             ).generate_from_frequencies(self._dict_data)
         )
 
-    def _save_word_cloud(self):
+    def _save_word_cloud(self) -> None:
         self._word_cloud.to_file(confs.WORDCLOUD_IMAGE_NAME)
 
-    def create_word_cloud(self):
+    def create_word_cloud(self) -> None:
         self._clean_text()
         self._tokenize_text()
         self._remove_stop_words()
