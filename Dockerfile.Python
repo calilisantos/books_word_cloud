@@ -1,17 +1,17 @@
-# Use a imagem base do Python 3.10
+# Use Python 3.10 as the base image
 FROM python:3.10
 
-# Define o diretório de trabalho como /app
+# Define /app as root directory
 WORKDIR /app
 
-# Copia os arquivos necessários para o diretório de trabalho
+# Copy the necessary files to the working directory
 COPY requirements.txt .
 COPY tox.ini .
 COPY src ./src
 COPY tests ./tests
 
-# Instala as dependências Python
+# Install python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Define o comando padrão para iniciar o aplicativo
+# Set run command
 CMD ["streamlit", "run", "src/main.py"]

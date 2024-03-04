@@ -8,27 +8,17 @@ class BooksModel:
     def __init__(self, spark: SparkSession) -> None:
         self._files_list = list()
         self._data_list = list()
-        self._has_raw_content = bool()
         self._spark = spark
         self._data = DataFrame
         self._selected_book = DataFrame
 
     def check_raw_content(self) -> bool:
-        """
-        Verifica se o parquet com o conteúdo dos livros existe
-        """
         return Path(data_config.TARGET_PATH).exists()
 
     def _set_files_list(self) -> None:
-        """
-        Retorna uma lista com os arquivos do diretório
-        """
         self._files_list = [file.name for file in Path(data_config.SOURCE_PATH).iterdir() if file.is_file()]
 
     def _set_data_list(self) -> None:
-        """
-        Seta a lista de arquivos
-        """
         for file_name in self._files_list:
             with open(f"{data_config.SOURCE_PATH}/{file_name}", data_config.READ_MODE) as file:
                 data = file.read()
@@ -41,9 +31,6 @@ class BooksModel:
                 self._data_list.append((title, author, data))
 
     def create_raw_dataframe(self) -> None:
-        """
-        Cria o parquet com o conteúdo dos livros
-        """
         self._set_files_list()
         self._set_data_list()
         self._spark.createDataFrame(
@@ -53,15 +40,9 @@ class BooksModel:
             .parquet(data_config.TARGET_PATH)
 
     def _set_raw_dataframe(self) -> None:
-        """
-        Seta o dataframe com o conteúdo dos livros
-        """
         self._data = self._spark.read.parquet(data_config.TARGET_PATH)
 
     def get_books_title(self) -> list:
-        """
-        Retorna uma lista com os títulos dos livros
-        """
         self._set_raw_dataframe()
         titles = (
             self._data
@@ -73,9 +54,6 @@ class BooksModel:
         return [title['title'] for title in titles]
 
     def get_book(self, book_title: str) -> DataFrame:
-        """
-        Retorna o conteúdo do livro pelo seu nome
-        """
         self._selected_book = (
             self._data
                 .filter(self._data['title'] == book_title)
@@ -83,9 +61,6 @@ class BooksModel:
         return self._selected_book
 
     def get_book_author(self) -> str:
-        """
-        Retorna o autor do livro pelo seu nome
-        """
         return (
             self._selected_book
                 .select('author')
