@@ -160,7 +160,7 @@ docker exec <container_name_or_id> python /caminho/para/seu/arquivo.py
 docker exec book-app pytest -v
 # executando arquivos dentro do container:
 docker exec -it <container_name> bash
-# ex para o mysql (na sequência é solicitada a senha):
+# ex para o app (na sequência é solicitada a senha):
 docker exec -it book-app
 ```
 >**IMPORTANTE**<br/>Nos logs de inicialização do container é mostrada onde está localizada o executável java (JAVA_HOME) do container spark. Caso esse valor seja diferente do atual no docker-compose, modifique-o para execução com êxito do projeto.
