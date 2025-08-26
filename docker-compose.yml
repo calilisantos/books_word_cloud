@@ -3,15 +3,16 @@ version: '3.8'
 services:
   spark_env:
     image: apache/spark-py:v3.4.0
-    volumes:
-      - /etc/java-11-openjdk/security:/java_security  # Mount java security files
     container_name: spark_env
     command: echo This was the JAVA_HOME $JAVA_HOME
+    volumes:
+      - /etc/java-11-openjdk/security:/java_security  # Mount java security files
 
   book-app:
     build:
       context: .
       dockerfile: Dockerfile.Python
+    container_name: book-app
     depends_on:
       - spark_env
     ports:
@@ -24,4 +25,22 @@ services:
     environment:
       - PYTHONPATH=/app
       - JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-    container_name: book-app
+
+  jupyter_explorer:
+    build:
+      context: .
+      dockerfile: Dockerfile.Python   # reuse book-app dockerfile
+    container_name: jupyter_explorer
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./src:/app/src
+      - ./notebooks:/app/notebooks    #  notebooks GUI
+      - ./tests:/app/tests
+      - /usr/lib/jvm/java-11-openjdk-amd64:/usr/lib/jvm/java-11-openjdk-amd64
+      - /etc/java-11-openjdk/security:/usr/lib/jvm/java-11-openjdk-amd64/conf/security
+    environment:
+      - PYTHONPATH=/app
+      - JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+    command: >
+      jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token=''

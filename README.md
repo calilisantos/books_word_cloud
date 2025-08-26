@@ -17,7 +17,8 @@ Aqui você vai encontrar os detalhes de como está estruturado e foi desenvolvid
   - [Testes](#testes)
 - [Implementações](#implementacoes)
   - [Contextualizando](#contextualizando)
-  - [Visão do app](#consumindo)
+  - [Visão do app](#app_view)
+  - [Explorando dados com notebook](#jupyter)
 - [Próximos passos](#next)
 
 # <a id='desenvolvimento'>[Desenvolvimento](#topicos)</a>
@@ -44,7 +45,7 @@ Aqui você vai encontrar os detalhes de como está estruturado e foi desenvolvid
   * **[main.py](src/main.py)** com a classe **Main**, executora do código-fonte da aplicação.
 * **Na pasta [tests](tests) estão os arquivos com os testes das respectivas camadas do código-fonte.**
 * **E os arquivos:**
-  * **[docker-compose.yml](docker-compose.yml)** arquivo que possibilita a execução da aplicação, orquestrando as imagens docker do `spark` e `python`;
+  * **[docker-compose.yml](docker-compose.yml)** arquivo que possibilita a execução da aplicação, orquestrando as imagens docker do `spark`, `python` e `jupyter lab`;
   * **[Dockerfile.Python](Dockerfile.Python)** container docker do `python` com as especificações necessárias para a aplicação;
   * **[requirements.txt](requirements.txt)** arquivo com as dependências necessárias e utilizadas para execução do projeto;
   * **[tox.ini](tox.ini)** arquivo com a configuração de uso da [análise estática do código](#linter).
@@ -205,7 +206,7 @@ Se estiver a vontade, clone o repositório e, seja com ou sem o Docker, execute,
 
   Para mostrar o potencial da solução, desenvolveu-se essa aplicação que constrói uma nuvem de palavras com `python` e `pyspark`, com as 50 principais palavras de livros famosos disponíveis na API Gutendex.
   
-<strong><a id='consumindo'>[Visão do app](#topicos)</a></strong>
+<strong><a id='app_view'>[Visão do app](#topicos)</a></strong>
 
   Para execução do projeto (como descrito [nessa seção](#sem-docker)), execute o comando abaixo na raiz do projeto clonado:
 
@@ -215,7 +216,17 @@ Se estiver a vontade, clone o repositório e, seja com ou sem o Docker, execute,
   
   No seu servidor local, na porta `8501`, a aplicação deve ficar disponível, como abaixo:
 
+  link: <http://localhost:8501/>
+
   ![books-app gif](docs/book-app.gif)
+
+<strong><a id='jupyter'>[Explorando dados com notebook](#topicos)</a></strong>
+
+  Feito o build da aplicação com o docker, é possível explorar o código **_ad hoc_** com um container jupyter lab dedicado nesse link:
+
+  link: <http://localhost:8888/>
+
+  Também sem o docker, o notebook de exploração está nessa pasta: `notebooks/word_count_in_pyspark.ipynb` precisando das mesmas dependências do `requirements.txt`.
 
 # <a id='next'>[Próximos passos](#topicos)</a>
 
